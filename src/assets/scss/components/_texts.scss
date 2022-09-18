@@ -1,0 +1,21 @@
+@use '../utils/variables' as var;
+@use '../utils/funciones' as fn;
+@use '../utils/mixins' as mx;
+@use '../utils/extends' as ex;
+
+.title {
+    color: var(--color-background);
+    font-size: var.getTypography('h1');
+    margin: 1rem;
+    position: relative;    
+    @extend %texto;
+    @include mx.createPseudoelement(before, '1') {
+        right: 0;
+        left: -1rem;
+    };
+}
+.subtitle {
+    color: var(--color-background);
+    font-size: var.getTypography('h2');
+    @extend %texto;
+}

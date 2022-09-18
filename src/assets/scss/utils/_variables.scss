@@ -1,0 +1,64 @@
+@use 'funciones' as fn;
+@use 'sass:map';
+
+//1-VARIABLES
+// Colores
+$palette: (
+    'color-primary': #3b83bd,
+    'color-secondary': #000,
+    'color-background': #fff,
+    'color-title': #333,
+    'color-text': #777
+);
+// Tipografía
+$font-size-default: fn.pxTorem(16px);
+$typography: (    
+    'font-family': ('Raleway', sans-serif),
+    'line-height': fn.pxToem(20px),
+    'font-size': (
+        'default': $font-size-default,
+        'h1': fn.changeSizeFont($font-size-default, 100, increase),
+        'h2': fn.changeSizeFont($font-size-default, 50, increase),
+        'h3': fn.changeSizeFont($font-size-default, 20, increase),
+    )    
+);
+// Media queries
+$breakpoints: (
+    'xxlarge': 1440px,
+    'xlarge': 1200px,
+    'large': 992px,
+    'medium': 768px,
+    'small': 596px,
+    'xsmall': 0
+);
+// Imágenes
+$images: (
+    'header-background': '../images/background.webp'
+);
+//2-MAPEO
+@function getColor($color) {   
+    @return map.get($palette, $color);
+}
+@function getTypography($property) {   
+    @if($property == 'font-family') or ($property == 'line-height'){
+        @return map.get($typography, $property);
+    } @else{        
+        @return map.get(map.get($typography, 'font-size'), $property);
+    }
+}
+@function getImageURL($image) {   
+    @return map.get($images, $image);
+}
+@function getMedia($media) {   
+    @return map.get($breakpoints, $media);
+}
+//3-CUSTOM PROPERTIES
+:root {
+    // Colores
+    --color-primary: #{getColor('color-primary')};
+    --color-secondary: #{getColor('color-secondary')};
+    --color-background: #{getColor('color-background')};
+    // Tipografía
+    --tipografia-family: #{getTypography('font-family')};
+    --tipografia-size: #{getTypography('default')};
+}
